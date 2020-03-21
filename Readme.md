@@ -3,7 +3,7 @@
 ## requirements:
     * django
     * pandas
-    * pyplot
+    * plotly
     * requests
 
 ## run the app:

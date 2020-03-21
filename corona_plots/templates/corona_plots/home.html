@@ -1,16 +1,15 @@
 {% extends "corona_plots/base.html" %}
 {% block content %}
-  <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Locations
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      {% for location in locations %}
-        <a class="dropdown-item" href="{% url 'corona-plots-plots' %}?{{ location }}">{{ location }}</a>
-      {% endfor %} 
-    </div>
-  </div>
   <div class="media-body">
-    <a class"mr-2" href="{% url 'corona-plots-home' %}">NCOV-19 Plots</a>
+    <div class="dropdown" id='wrapper'>
+      <button class="btn btn-secondary btn-lg dropdown-toggle" data-offset="-50,0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plot Locations&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </button>
+      <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
+        {% for location in locations %}
+          <a class="dropdown-item" href="{% url 'corona-plots-plots' %}?location={{ location }}">{{ location }}</a>
+        {% endfor %} 
+      </div>
+    </div>
   </div>
 {% endblock content %}

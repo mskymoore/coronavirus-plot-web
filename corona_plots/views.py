@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 from . import models
 import pickle
 import plotly.offline as po

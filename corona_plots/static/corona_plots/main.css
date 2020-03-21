@@ -3,10 +3,12 @@ body {
     color: #333333;
     margin-top: 5rem;
   }
+  
   #wrapper {
     width: 50%;  /*   specify a width! */
     margin: 0 auto; /* center */
   }
+
   h1, h2, h3, h4, h5, h6 {
     color: #444444;
   }
@@ -89,10 +91,11 @@ body {
   .scrollable-menu {
     height: auto;
     max-height: 400px;
+    max-width: 100px;
     overflow-x: hidden;
   }
 
   .dropdown-menu{
-    min-width: 0%;
+    min-width: 100%;
     text-align: center;
   }

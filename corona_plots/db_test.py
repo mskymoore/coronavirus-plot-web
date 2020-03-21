@@ -1,44 +1,72 @@
-from .models import DateSeries, Location, SelectionString, CountSeries, SeriesType
 import csv, requests, pickle
+from .models import CaseStatusType, Location, HistoricEntry
+from hashlib import sha256
 
+from github import Github
 
-confirmed_cases_csv_url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv"
-death_csv_url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv"
-recovered_cases_csv_url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv"
-
-csv_urls = {'confirmed': confirmed_cases_csv_url, 'death': death_csv_url, 'recovered': recovered_cases_csv_url}
 
 province_key = 'Province/State'
 country_key = 'Country/Region'
-
 
 
 def get_file(csv_url):
     return csv.DictReader(requests.get(csv_url).iter_lines(decode_unicode=True))
 
 
+g = Github("34a2755ef5ef33b83bf7bcf4614a27f6287d5589")
+
+repo = g.get_repo("CSSEGISandData/COVID-19")
+confirmed = repo.get_contents("csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv")
+death = repo.get_contents("csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv")
+recovered = repo.get_contents("csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv")
+
+list1=[1,2,3]
+list2=[4,5,6]
+for item in zip(list1,list2):
+    print(item)
+exit()
+data_file = get_file(confirmed.download_url)
+print('\n\n',data_file.fieldnames, '\n\n')
+for line in data_file:
+    print(line)
+    input()
+exit()
+
 def generate_count_series(row):
     return pickle.dumps([int(row[num]) for num in row if (row[num].isnumeric() and int(row[num]) > 0)])
 
 
 def update_table(csv_url_key, series_type):
+
     update_file = get_file(csv_urls[csv_url_key])
+    locs = { create_hash(loc.friendly_name): loc for loc in Location.objects.all() }
+
+    casetypes = svc.get_casetypes
     for row in update_file:
-        selection_string = get_selection_string(row)
-        selection_string = SelectionString.objects.filter(selection_string=selection_string).first()
-        if selection_string is not None:
-            series_type = SeriesType(
-                selection_string=selection_string,
-                series_type=series_type
-            )
-            series_type.save()
-            count_series = CountSeries(
-                selection_string=selection_string,
-                series_type=series_type,
-                count_series=generate_count_series(row),
-                location=Location.objects.filter(selection_string=selection_string).first()
-            )
-            count_series.save()
+        province = row[province_key]
+        region = row[country_key]
+        hash_value = create_hash(province + ' - ' + region if province_state is not None  else region
+        
+        #last_entry = HistoricEntry.objects.filter(location_id=location.id).order_by('date').last()
+
+        num_db_entries = len(HistoricEntry.objects.filter(location_id=location.id))
+        cur = locs[hash_value]
+        
+        # [(a,2), (b,3), (c,4)] # in db
+        # [(z,0), (a,2), (b,3), (c,4), (d,5)] # in row
+        #
+
+        for i, item in enumerate(row[]):
+            if item.isnumeric() and int(item) > 0:
+                    first_entry_index = i + 1
+                    break
+        
+
+        start = (e-)
+        for item in row[target:]    
+
+def create_hash(value):
+    return str(sha256(value.encode()))
 
 
 def get_selection_string(row):

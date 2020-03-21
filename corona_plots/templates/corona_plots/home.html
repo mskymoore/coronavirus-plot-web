@@ -1,18 +1,16 @@
 {% extends "corona_plots/base.html" %}
 {% block content %}
-
-         <!--<article class="media content-section">
-            <div class="media-body">
-              <div class="article-metadata">
-                <a class="mr-2" href="#">{{ post.author }}</a>
-                <small class="text-muted">{{ post.date_posted }}</small>
-              </div>
-              <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
-              <p class="article-content">{{ post.content }}</p>
-            </div>
-         </article>
-         -->
-         <div class="media-body">
-         <a class"mr-2" href="{% url 'corona-plots-home' %}">NCOV-19 Plots</a>
-         </div>
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Locations
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      {% for location in locations %}
+        <a class="dropdown-item" href="{% url 'corona-plots-plots' %}?{{ location }}">{{ location }}</a>
+      {% endfor %} 
+    </div>
+  </div>
+  <div class="media-body">
+    <a class"mr-2" href="{% url 'corona-plots-home' %}">NCOV-19 Plots</a>
+  </div>
 {% endblock content %}

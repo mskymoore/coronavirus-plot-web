@@ -1,8 +1,8 @@
 {% extends "corona_plots/base.html" %}
 {% block content %}
-         <div class="media-body">
+         <div class="media-body", id="wrapper">
             {% for graph in graphs %}
-               <div style="width:1000;height:100">
+               <div style="width:auto;height:auto">
                   {{ graph|safe }}
                </div>
             {% endfor %}

@@ -1,0 +1,9 @@
+django
+pandas
+plotly
+requests
+PyGithub
+celery
+django-celery-beat
+redis
+psycopg2

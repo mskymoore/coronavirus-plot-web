@@ -11,14 +11,11 @@
     <title>NCOV-19 Plots</title>
 </head>
 <body>
+    <div class="uk-background-secondary uk-dark uk-padding uk-panel">
     <header>
         <nav class="uk-navbar-container" uk-navbar>
-          <div class="uk-navbar-center">
-            <ul class="uk-navbar-nav">
-              <li>
-                <a href="{% url 'corona-plots-home' %}" class="uk-active">NCOV-19 Plots</a>
-              </li>
-            </ul>
+          <div class="uk-navbar-center uk-dark">
+                <a href="{% url 'corona-plots-home' %}" class="uk-navbar-item uk-logo uk-dark">NCOV-19 Plots</a>
           </div>
         </nav>
         <nav class="uk-navbar-container" uk-navbar>
@@ -26,7 +23,7 @@
             <ul class="uk-subnav uk-subnav-pill" uk-margin>
               <li>
               <a class="uk-active" href="#offcanvas-slide" uk-toggle>{{ title }}</a>
-                <div id="offcanvas-slide" uk-offcanvas>
+                <div id="offcanvas-slide" uk-offcanvas="flip: true">
                   <div class="uk-offcanvas-bar">
                     <ul class="uk-nav uk-nav-center">
                       {% for location in locations %}
@@ -46,5 +43,6 @@
       </header>
       {% block content %}
       {% endblock %}
+      </div>
 </body>
 </html>

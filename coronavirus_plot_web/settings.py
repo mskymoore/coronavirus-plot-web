@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from datetime import timedelta as td
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,11 +28,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+REDIS_HOST = 'redis'
 # Application definition
 
 INSTALLED_APPS = [
     'corona_plots.apps.CoronaPlotsConfig',
+    'django_celery_beat',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -119,3 +121,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Celery config
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0' #% REDIS_HOST
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'US/Eastern'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+CELERY_BEAT_SCHEDULE = {
+    'update-database': {
+        'task': 'tradebot.tasks.do_data_update',
+        'schedule': td(hours=6),
+        # 'args': (*args)
+    }
+}

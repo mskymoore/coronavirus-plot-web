@@ -5,6 +5,10 @@ import plotly.offline as po
 import plotly.express as px
 
 
+# TODO: generate graphs when updating database and store in database or in filesystem,
+# retrieve them when requested instead of generating them since data only updates once a day
+# also use javascript to place a spinner, request the images, then replace the spinner with the image
+# after the image is recieved.
 def generate_graph_div(series_type, location):
         entries = HistoricEntry.objects.filter(location=location,case_status_type_id=series_type).order_by('date')
         x_axis = []

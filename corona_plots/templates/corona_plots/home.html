@@ -1,12 +1,23 @@
 {% extends "corona_plots/base.html" %}
 {% block content %}
       {% if graphs %}
-         <div>
-            {% for graph in graphs %}
-               <div style="width:auto;height:auto">
-                  {{ graph|safe }}
-               </div>
-            {% endfor %}
-         </div>
+        <div class="uk-alert-success" uk-alert="duration: 300">
+            <a class="uk-alert-close" uk-close></a>
+            <p class="uk-text-center">Generated graphs for {{ title }}</p>
+        </div>
+        <div>
+           {% for graph in graphs %}
+           <div class="uk-card uk-card-secondary uk-card-body uk-card-hover uk-card-small uk-animation-left">
+              <div style="width:auto;height:auto">
+                 {{ graph|safe }}
+              </div>
+           </div>
+           {% endfor %}
+        </div>
+      {% else %}
+        <div class="uk-alert-primary" uk-alert="duration: 300">
+            <a class="uk-alert-close" uk-close></a>
+            <p class="uk-text-center">Welcome, Choose a location to get started.</p>
+        </div>
       {% endif %}
 {% endblock content %}

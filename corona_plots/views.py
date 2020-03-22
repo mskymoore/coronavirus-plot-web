@@ -25,8 +25,8 @@ def plots(request):
             y_axis.append(int(entry.count))
 
 
-        fig = px.line(x=x_axis, y=y_axis, title=f'{series_type} cases', labels={'x': 'date', 'y':f'{series_type} cases'})
-        graph_div = po.plot(fig, auto_open = False, output_type="div")
+        fig = px.line(x=x_axis, y=y_axis, title=f'{series_type} cases', template="plotly_dark", labels={'x': 'date', 'y':f'{series_type} cases'})
+        graph_div = po.plot(fig, auto_open=False, output_type="div")
         
         return graph_div
         

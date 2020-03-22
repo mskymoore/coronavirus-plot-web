@@ -13,15 +13,7 @@ def create_hash(friendly_name):
     return sha256(friendly_name.encode()).hexdigest()
 
 
-#class CaseStatusType(models.Model):
-#    id = models.IntegerField(primary_key=True, default=0)
-#    name = models.CharField(max_length=50, unique=True)
-#    def __str__(self):
-#        return str(self.name)
-
-
 class Location(models.Model):
-    #id = models.IntegerField(primary_key=True, default=0)
     province_state = models.CharField(max_length=100, default='')
     region_country = models.CharField(max_length=100, default='')
     latitude = models.CharField(max_length=50)
@@ -37,6 +29,5 @@ class HistoricEntry(models.Model):
     count = models.IntegerField(default=0)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     case_status_type_id = models.CharField(max_length=25)
-    #case_status_type_id = models.ForeignKey(CaseStatusType, on_delete=models.DO_NOTHING)
     def __str__(self):
        return str(self.date) + ':' + str(self.count)

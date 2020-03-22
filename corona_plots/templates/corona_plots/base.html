@@ -8,23 +8,43 @@
     <script src="{% static 'corona_plots/js/uikit.min.js' %}"></script>
     <script src="{% static 'corona_plots/js/uikit-icons.min.js' %}"></script>
     <script src="{% static 'corona_plots/js/jquery-3.4.1.slim.min.js' %}"></script>
-    {% if title %}
-        <title>NCOV-19 Plots - {{ title }}</title>
-    {% else %}
-        <title>NCOV-19 Plots</title>
-    {% endif %}
+    <title>NCOV-19 Plots</title>
 </head>
 <body>
-    
     <header>
-        <nav>
-          <div>
-            <a href="{% url 'corona-plots-home' %}">NCOV-19 Plots</a>
-            </div>
+        <nav class="uk-navbar-container" uk-navbar>
+          <div class="uk-navbar-center">
+            <ul class="uk-navbar-nav">
+              <li>
+                <a href="{% url 'corona-plots-home' %}" class="uk-active">NCOV-19 Plots</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <nav class="uk-navbar-container" uk-navbar>
+          <div class="uk-navbar-center">
+            <ul class="uk-subnav uk-subnav-pill" uk-margin>
+              <li>
+              <a class="uk-active" href="#offcanvas-slide" uk-toggle>{{ title }}</a>
+                <div id="offcanvas-slide" uk-offcanvas>
+                  <div class="uk-offcanvas-bar">
+                    <ul class="uk-nav uk-nav-center">
+                      {% for location in locations %}
+                        {% if title == location %}
+                          <li class="uk-active"><a href="{% url 'corona-plots-plots' %}?location={{ location }}">{{ location }}</a></li>
+                        {% else %}
+                          <li><a href="{% url 'corona-plots-plots' %}?location={{ location }}">{{ location }}</a></li>
+                        {%endif%}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            </ul>
           </div>
         </nav>
       </header>
-      {% block content %}{% endblock %}
-
+      {% block content %}
+      {% endblock %}
 </body>
 </html>

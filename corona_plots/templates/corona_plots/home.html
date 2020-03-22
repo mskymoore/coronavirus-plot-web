@@ -1,27 +1,5 @@
 {% extends "corona_plots/base.html" %}
 {% block content %}
-      <nav class="uk-navbar-container" uk-navbar>
-        <div class="uk-navbar-center">
-        <ul class="uk-navbar-nav">
-          <li>
-          <a class="uk-active uk-button uk-button-default" href="#offcanvas-slide" uk-toggle>{{ title }}</a>
-            <div id="offcanvas-slide" uk-offcanvas>
-              <div class="uk-offcanvas-bar">
-                <ul class="uk-nav uk-nav-center">
-                  {% for location in locations %}
-                    {% if title == location %}
-                      <li class="uk-active"><a href="{% url 'corona-plots-plots' %}?location={{ location }}">{{ location }}</a></li>
-                    {% else %}
-                      <li><a href="{% url 'corona-plots-plots' %}?location={{ location }}">{{ location }}</a></li>
-                    {%endif%}
-                  {% endfor %}
-                </ul>
-              </div>
-            </div>
-          </li>
-        </ul>
-        </div>
-      </nav>
       {% if graphs %}
          <div>
             {% for graph in graphs %}

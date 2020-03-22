@@ -24,11 +24,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'rzls6fe8gz00jd=*bl8!a6scb=35m^^fm@@*+#9xjc$!5$w$bv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'ncov.1337.rip']
 
 REDIS_HOST = 'redis'
+POSTGRES_HOST = 'db'
 # Application definition
 
 INSTALLED_APPS = [
@@ -76,12 +77,22 @@ WSGI_APPLICATION = 'coronavirus_plot_web.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#    }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'HOST': POSTGRES_HOST,
+        'PORT': 5432,
     }
 }
+
 
 
 # Password validation
@@ -125,7 +136,7 @@ STATIC_URL = '/static/'
 
 # Celery config
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0' #% REDIS_HOST
+CELERY_BROKER_URL = 'redis://%s:6379/0' % REDIS_HOST
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'

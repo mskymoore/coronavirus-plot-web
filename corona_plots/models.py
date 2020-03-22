@@ -6,7 +6,7 @@ import pickle
 # Create your models here.
 
 def create_friendly_name(province, region):
-    return str(province) + ' - ' + str(region) if str(province) is not '' else str(region)
+    return str(province) + ' - ' + str(region) if str(province) != '' else str(region)
 
 
 def create_hash(friendly_name):

@@ -6,7 +6,7 @@
 2. source virtual env
    * `source env_name/bin/activate`
 3. make sure required packages are installed
-   * `pip install django pandas plotly requests`
+   * `pip install django pandas plotly requests PyGithub`
 4. generate sql from models
    * `python manage.py makemigrations`
 5. run sql against db

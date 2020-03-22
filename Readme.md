@@ -5,6 +5,7 @@
     * pandas
     * plotly
     * requests
+    * PyGithub
 
 ## run the app:
 1. follow the instructions in sample_data/Readme.md

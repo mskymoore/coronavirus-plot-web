@@ -6,6 +6,9 @@
     * plotly
     * requests
     * PyGithub
+    * celery
+    * django-celery-beat
+    * redis
 
 ## run the app:
 1. follow the instructions in sample_data/Readme.md

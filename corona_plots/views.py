@@ -1,22 +1,22 @@
 from django.shortcuts import render
 from .coronaVars import case_status_type_names
-from . import models
+from .models import Location, HistoricEntry
 import plotly.offline as po
 import plotly.express as px
 
 
 # Create your views here.
 def home(request):
-    context = {'locations': models.Location.objects.all().order_by('friendly_name')}
+    context = {'locations': Location.objects.all().order_by('friendly_name')}
     return render(request, 'corona_plots/home.html', context)
 
 
 def plots(request):
     location = request.GET['location']
-    location = models.Location.objects.filter(friendly_name=location).first()
+    location = Location.objects.filter(friendly_name=location).first()
 
     def generate_graph_div(series_type, selection_string):
-        entries = models.HistoricEntry.objects.filter(location=location,case_status_type_id=series_type).order_by('date')
+        entries = HistoricEntry.objects.filter(location=location,case_status_type_id=series_type).order_by('date')
         x_axis = []
         y_axis = []
         for entry in entries:

@@ -1,15 +1,34 @@
 {% extends "corona_plots/base.html" %}
 {% block content %}
-  <!--<div class="media-body">-->
-    <div class="dropdown", id='wrapper'>
-      <button class="btn btn-secondary btn-lg dropdown-toggle" data-offset="-50,0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plot Locations&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      </button>
-      <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
-        {% for location in locations %}
-          <a class="dropdown-item" href="{% url 'corona-plots-plots' %}?location={{ location }}">{{ location }}</a>
-        {% endfor %} 
-      </div>
-    </div>
-  <!--</div>-->
+      <nav class="uk-navbar-container" uk-navbar>
+        <div class="uk-navbar-center">
+        <ul class="uk-navbar-nav">
+          <li>
+          <a class="uk-active uk-button uk-button-default" href="#offcanvas-slide" uk-toggle>{{ title }}</a>
+            <div id="offcanvas-slide" uk-offcanvas>
+              <div class="uk-offcanvas-bar">
+                <ul class="uk-nav uk-nav-center">
+                  {% for location in locations %}
+                    {% if title == location %}
+                      <li class="uk-active"><a href="{% url 'corona-plots-plots' %}?location={{ location }}">{{ location }}</a></li>
+                    {% else %}
+                      <li><a href="{% url 'corona-plots-plots' %}?location={{ location }}">{{ location }}</a></li>
+                    {%endif%}
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>
+        </div>
+      </nav>
+      {% if graphs %}
+         <div>
+            {% for graph in graphs %}
+               <div style="width:auto;height:auto">
+                  {{ graph|safe }}
+               </div>
+            {% endfor %}
+         </div>
+      {% endif %}
 {% endblock content %}

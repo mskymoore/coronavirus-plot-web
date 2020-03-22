@@ -7,7 +7,8 @@ import plotly.express as px
 
 # Create your views here.
 def home(request):
-    context = {'locations': Location.objects.all().order_by('friendly_name')}
+    context = {'locations': Location.objects.all().order_by('friendly_name'),
+                'title': 'Choose a Location'}
     return render(request, 'corona_plots/home.html', context)
 
 
@@ -24,14 +25,16 @@ def plots(request):
             y_axis.append(int(entry.count))
 
 
-        fig = px.line(x=x_axis, y=y_axis, title=f'{series_type} cases {selection_string}', labels={'x': 'date', 'y':f'{series_type} cases'})
+        fig = px.line(x=x_axis, y=y_axis, title=f'{series_type} cases', labels={'x': 'date', 'y':f'{series_type} cases'})
         graph_div = po.plot(fig, auto_open = False, output_type="div")
         
         return graph_div
         
 
     context = {
-        'graphs': [ generate_graph_div(series_type, location) for series_type in case_status_type_names ]
+        'graphs': [ generate_graph_div(series_type, location) for series_type in case_status_type_names ],
+        'title': location,
+        'locations': Location.objects.all().order_by('friendly_name')
     }
     
-    return render(request, 'corona_plots/plots.html', context)
+    return render(request, 'corona_plots/home.html', context)

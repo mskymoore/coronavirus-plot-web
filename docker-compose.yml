@@ -32,12 +32,11 @@ services:
 
   django:
     build: .
+    image: corona_plots:lastest
     command: sh runserver.sh
     links:
       - redis:redis
       - db:db
-    #ports:
-    #  - 0.0.0.0:8080:8080
     expose:
       - "8080"
     volumes:
@@ -47,7 +46,7 @@ services:
       - redis
   
   celery:
-    build: .
+    image: corona_plots:latest
     links: 
       - redis:redis
     environment:

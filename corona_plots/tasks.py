@@ -42,19 +42,13 @@ def update_database(csv_file, case_status_type_id):
         
         list_row = [ item for item in row.items() ][4:]
 
-        for i, entry in enumerate(list_row):
-            if int(entry[1]) > 0 :
-                first_nonzero_row_entry_index = i
-                break
 
-        first_new_entry_index = first_nonzero_row_entry_index + num_historic_db_entries
-
-        if first_new_entry_index > (len(list_row) - 1):
+        if num_historic_db_entries == len(list_row):
             # no new entries, nothing to do
             print('no updates for', case_status_type_id)
             break
         
-        for entry in list_row[first_new_entry_index:]:
+        for entry in list_row[num_historic_db_entries:]:
             an_entry = HistoricEntry(
                 date = dt.strptime(entry[0], '%m/%d/%y').strftime('%Y-%m-%d'),
                 location = location,

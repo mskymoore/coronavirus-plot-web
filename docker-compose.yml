@@ -58,3 +58,4 @@ services:
     depends_on:
       - django
       - redis
+      - db

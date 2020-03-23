@@ -32,7 +32,7 @@ services:
 
   django:
     build: .
-    image: corona_plots:lastest
+    image: corona_plots:latest
     command: sh runserver.sh
     links:
       - redis:redis

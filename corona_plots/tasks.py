@@ -35,27 +35,30 @@ def update_database(csv_file, case_status_type_id):
             location.save()
         else:
             location = locs[friendly_hash]
-        
 
         locations_entries = HistoricEntry.objects.filter(location_id=location, case_status_type_id=case_status_type_id) 
         num_historic_db_entries = len(locations_entries)
         
         list_row = [ item for item in row.items() ][4:]
 
-
         if num_historic_db_entries == len(list_row):
             # no new entries, nothing to do
             print('no updates for', case_status_type_id)
-            break
-        
+            break 
+
         for entry in list_row[num_historic_db_entries:]:
-            an_entry = HistoricEntry(
+            HistoricEntry(
                 date = dt.strptime(entry[0], '%m/%d/%y').strftime('%Y-%m-%d'),
                 location = location,
                 count = int(entry[1]),
                 case_status_type_id = case_status_type_id
             ).save()
-            print('new historical entry for {date} {location}'.format(date=entry[0], location=location.friendly_name))
+            print('new {status_type} historical entry {num} for {date} {location}'.format(
+                status_type=case_status_type_id,
+                num=entry[1],
+                date=entry[0],
+                location=location.friendly_name))
+            
 
 @shared_task
 def do_data_update():

@@ -19,7 +19,7 @@ def generate_graph_div(series_type, location):
 
 
         fig = px.line(x=x_axis, y=y_axis, title=f'{series_type} cases', template="plotly_dark", labels={'x': 'date', 'y':f'{series_type} cases'})
-        graph_div = po.plot(fig, auto_open=False, output_type="div")
+        graph_div = po.plot(fig, auto_open=False, output_type="div", include_plotlyjs=False)
         
         return graph_div
 

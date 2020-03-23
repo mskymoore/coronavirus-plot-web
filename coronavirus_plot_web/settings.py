@@ -26,7 +26,7 @@ SECRET_KEY = 'rzls6fe8gz00jd=*bl8!a6scb=35m^^fm@@*+#9xjc$!5$w$bv'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['django']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'django']
 
 REDIS_HOST = 'redis'
 POSTGRES_HOST = 'db'

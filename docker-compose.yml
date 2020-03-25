@@ -46,6 +46,7 @@ services:
       - redis
   
   celery:
+    build: .
     image: corona_plots:latest
     links: 
       - redis:redis

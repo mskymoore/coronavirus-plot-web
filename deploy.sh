@@ -1,8 +1,7 @@
 #!/bin/bash
 
-sudo su
-apt install letsencrypt
-certbot certonly --standalone -d ncov.1337.rip
-chown -R admin:admin /etc/letsencrypt
-exit
+
+sudo apt install letsencrypt
+sudo certbot certonly --standalone -d ncov.1337.rip --agree-tos
+sudo chown -R $SUDO_USER:$SUDO_USER /etc/letsencrypt
 docker-compose up

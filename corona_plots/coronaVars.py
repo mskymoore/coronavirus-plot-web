@@ -12,8 +12,10 @@ long_key = 'Long'
 g = Github("34a2755ef5ef33b83bf7bcf4614a27f6287d5589")
 repo = g.get_repo("CSSEGISandData/COVID-19")
 
-confirmed = repo.get_contents("csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
-deaths = repo.get_contents("csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")
+confirmed_path = "csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
+deaths_path = "csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"
+confirmed = repo.get_contents(confirmed_path)
+deaths = repo.get_contents(deaths_path)
 
 
 case_status_type_names = ['confirmed', 'deaths']
@@ -21,10 +23,3 @@ case_status_type_names = ['confirmed', 'deaths']
 csv_github_files = [confirmed, deaths]
 
 csv_urls = [github_file.download_url for github_file in csv_github_files]
-
-csv_files = [get_file(csv_url) for csv_url in csv_urls]
-
-case_files = {}
-
-for case_status_type_name, csv_file in zip(case_status_type_names,csv_files):
-    case_files[case_status_type_name] = csv_file

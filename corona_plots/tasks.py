@@ -1,6 +1,7 @@
 import csv, requests
 from .models import Location, HistoricEntry, create_friendly_name, create_hash
-from .coronaVars import province_key, country_key, case_files, lat_key, long_key
+from .coronaVars import province_key, country_key, csv_urls, get_file
+from .coronaVars import case_status_type_names, lat_key, long_key
 from celery import shared_task
 from celery.signals import worker_ready
 from datetime import datetime as dt
@@ -62,8 +63,10 @@ def update_database(csv_file, case_status_type_id):
 
 @shared_task
 def do_data_update():
-    for case_file_type in case_files:
-        update_database(case_files[case_file_type], case_file_type)
+    csv_files = [get_file(csv_url) for csv_url in csv_urls]
+
+    for case_status_type_name, csv_file in zip(case_status_type_names, csv_files):
+        update_database(csv_file, case_status_type_name)
 
 @worker_ready.connect
 def update_data(sender=None, conf=None, **kwargs):

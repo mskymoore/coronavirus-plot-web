@@ -14,12 +14,13 @@ repo = g.get_repo("CSSEGISandData/COVID-19")
 
 confirmed_path = "csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
 deaths_path = "csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"
+recovered_path = "csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv"
+
 confirmed = repo.get_contents(confirmed_path)
 deaths = repo.get_contents(deaths_path)
+recovered = repo.get_contents(recovered_path)
 
-
-case_status_type_names = ['confirmed', 'deaths']
-
-csv_github_files = [confirmed, deaths]
+case_status_type_names = ['confirmed', 'deaths', 'recovered']
+csv_github_files = [confirmed, deaths, recovered]
 
 csv_urls = [github_file.download_url for github_file in csv_github_files]

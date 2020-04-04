@@ -144,7 +144,7 @@ CELERY_TIMEZONE = 'US/Eastern'
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 CELERY_BEAT_SCHEDULE = {
     'update-database': {
-        'task': 'tradebot.tasks.do_data_update',
+        'task': 'corona_plots.tasks.do_data_update',
         'schedule': td(hours=6),
         # 'args': (*args)
     }

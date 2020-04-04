@@ -10,6 +10,19 @@ import plotly.express as px
 # also use javascript to place a spinner, request the images, then replace the spinner with the image
 # after the image is recieved.
 
+def generate_percent_increase_series(y_axis_cases):
+    
+    y_axis_percent_increase = [0]
+    for i in range(len(y_axis_cases))[1:]:
+        if y_axis_cases[i-1] == 0:
+            divisor = 100
+        else:
+            divisor = y_axis_cases[i-1]
+        y_axis_percent_increase.append(((y_axis_cases[i] - y_axis_cases[i-1])/divisor)*100)
+    
+    return y_axis_percent_increase
+
+
 def generate_series(series_type, location):
     entries = HistoricEntry.objects.filter(location=location,case_status_type_id=series_type).order_by('date')
     x_axis_cases = []
@@ -21,14 +34,10 @@ def generate_series(series_type, location):
     y_axis_increase = [y_axis_cases[0]]
     for i in range(len(entries))[1:]:
         y_axis_increase.append(y_axis_cases[i] - y_axis_cases[i-1])
+    
+    y_axis_percent_increase = generate_percent_increase_series(y_axis_cases)
 
-    y_axis_percent_increase = [0]
-    for i in range(len(entries))[1:]:
-        if y_axis_cases[i-1] == 0:
-            divisor = 100
-        else:
-            divisor = y_axis_cases[i-1]
-        y_axis_percent_increase.append(((y_axis_cases[i] - y_axis_cases[i-1])/divisor)*100)
+    
     return {
         'x_axis' : x_axis_cases,
         'cases' : y_axis_cases,
@@ -106,7 +115,6 @@ def plots2(request):
         x_axis = location_series[next(iter(location_series))][series_type]['x_axis']
         y_axis_cases = [ 0 for i in x_axis ]
         y_axis_increase = y_axis_cases.copy()
-        y_axis_percent_increase = y_axis_cases.copy()
 
         for sublocation in location_series:
 
@@ -115,9 +123,9 @@ def plots2(request):
 
             for i, count in enumerate(location_series[sublocation][series_type]['increase']):
                 y_axis_increase[i] = y_axis_increase[i] + count
-
-            for i, count in enumerate(location_series[sublocation][series_type]['percent_increase']):
-                y_axis_percent_increase[i] = y_axis_percent_increase[i] + count
+            
+        y_axis_percent_increase = generate_percent_increase_series(y_axis_cases)
+            
 
         location_sum_series[series_type] = {
             'x_axis' : x_axis,

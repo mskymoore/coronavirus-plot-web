@@ -11,17 +11,35 @@ import plotly.express as px
 # after the image is recieved.
 def generate_graph_div(series_type, location):
         entries = HistoricEntry.objects.filter(location=location,case_status_type_id=series_type).order_by('date')
-        x_axis = []
-        y_axis = []
+        x_axis_cases = []
+        y_axis_cases = []
         for entry in entries:
-            x_axis.append(str(entry.date))
-            y_axis.append(int(entry.count))
+            x_axis_cases.append(str(entry.date))
+            y_axis_cases.append(int(entry.count))
+
+        y_axis_increase = [y_axis_cases[0]]
+        for i in range(len(entries))[1:]:
+            y_axis_increase.append(y_axis_cases[i] - y_axis_cases[i-1])
+
+        y_axis_increase_percent = [0]
+        for i in range(len(entries))[1:]:
+            if y_axis_cases[i-1] == 0:
+                divisor = 100
+            else:
+                divisor = y_axis_cases[i-1]
+            y_axis_increase_percent.append(((y_axis_cases[i] - y_axis_cases[i-1])/divisor)*100)
 
 
-        fig = px.line(x=x_axis, y=y_axis, title=f'{series_type} cases', template="plotly_dark", labels={'x': 'date', 'y':f'{series_type} cases'})
-        graph_div = po.plot(fig, auto_open=False, output_type="div", include_plotlyjs=False)
+        fig_line = px.line(x=x_axis_cases, y=y_axis_cases, title=f'{series_type} cases', template="plotly_dark", labels={'x': 'date', 'y':f'{series_type} cases'})
+        line_graph_div = po.plot(fig_line, auto_open=False, output_type="div", include_plotlyjs=False)
         
-        return graph_div
+        fig_bar = px.bar(x=x_axis_cases, y=y_axis_increase, title=f'{series_type} increase', template="plotly_dark", labels={'x': 'date', 'y':f'{series_type} increase'})
+        bar_graph_div = po.plot(fig_bar, auto_open=False, output_type="div", include_plotlyjs=False)
+
+        fig_bar_perc = px.bar(x=x_axis_cases, y=y_axis_increase_percent, title=f'{series_type} percent increase', template="plotly_dark", labels={'x': 'date', 'y':f'{series_type} percent increase'})
+        bar_perc_graph_div = po.plot(fig_bar_perc, auto_open=False, output_type="div", include_plotlyjs=False)
+
+        return line_graph_div + bar_perc_graph_div + bar_graph_div
 
 
 # Create your views here.

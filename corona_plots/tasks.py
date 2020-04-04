@@ -14,8 +14,13 @@ def update_database(csv_file, case_status_type_id):
 
     locs = { loc.friendly_hash: loc for loc in Location.objects.all() }
 
-    for row in csv_file:
+    # DEBUG
+    row_num = 0
 
+    for row in csv_file:
+        # DEBUG
+        if row_num == 5:
+            break
         province = row[province_key]
         region = row[country_key]
         lat = row[lat_key]
@@ -59,7 +64,8 @@ def update_database(csv_file, case_status_type_id):
                 num=entry[1],
                 date=entry[0],
                 location=location.friendly_name))
-            
+        # DEBUG
+        row_num = row_num + 1
 
 @shared_task
 def do_data_update():
